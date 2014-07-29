@@ -1,0 +1,1 @@
+INSERT INTO accounts (name, accountNumber) VALUES ('Checking account', '15151515151');

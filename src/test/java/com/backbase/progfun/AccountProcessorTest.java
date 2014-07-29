@@ -2,24 +2,26 @@ package com.backbase.progfun;
 
 import com.jayway.jsonpath.JsonPath;
 import org.apache.camel.Exchange;
-import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Test;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountProcessorTest extends CamelSpringTestSupport {
+import static org.junit.Assert.assertEquals;
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:app-context.xml")
+public class AccountProcessorTest extends BaseRouteTest {
 
     private static final String ACCOUNTS_ENDPOINT = "seda:bar";
 
-    @Override
-    protected AbstractApplicationContext createApplicationContext() {
-        return new ClassPathXmlApplicationContext("app-context.xml");
-    }
-
     @Test
+    @Transactional
     public void findOne() {
 
         final Map<String, Object> headers = new HashMap<String, Object>();
@@ -32,6 +34,7 @@ public class AccountProcessorTest extends CamelSpringTestSupport {
     }
 
     @Test
+    @Transactional
     public void delete() {
 
         final Map<String, Object> headers = new HashMap<String, Object>();
@@ -39,12 +42,8 @@ public class AccountProcessorTest extends CamelSpringTestSupport {
         headers.put(Exchange.HTTP_METHOD, "DELETE");
 
         final String response = template.requestBodyAndHeaders(ACCOUNTS_ENDPOINT, null, headers, String.class);
-        assertEquals(200 ,JsonPath.read(response, "code"));
+        assertEquals(200, JsonPath.read(response, "code"));
 
     }
 
-    @Override
-    public boolean isCreateCamelContextPerClass() {
-        return true;
-    }
 }

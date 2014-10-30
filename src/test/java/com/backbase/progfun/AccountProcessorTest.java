@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration("classpath:app-context.xml")
 public class AccountProcessorTest extends BaseRouteTest {
 
-    private static final String ACCOUNTS_ENDPOINT = "seda:bar";
+    private static final String ACCOUNTS_ENDPOINT = "direct:bar";
 
     @Test
     @Transactional

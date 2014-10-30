@@ -28,7 +28,7 @@
     <!-- camel-context -->
     <camel:camelContext id="foo">
         <camel:route>
-            <camel:from uri="seda:bar"/>
+            <camel:from uri="direct:bar"/>
             <camel:transacted />
             <camel:process ref="accountProcessor"/>
         </camel:route>
